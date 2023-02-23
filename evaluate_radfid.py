@@ -61,6 +61,7 @@ def black_boxes(img, a):
     height, width = img.shape[0], img.shape[1]
     x = np.random.randint(0, height-int(a*height), 5)
     y = np.random.randint(0, width-int(a*width), 5)
+    size = int(a*width)
     for i in range(5):
         img[x[i]:x[i]+size,y[i]:y[i]+size] = 0.
     return img
