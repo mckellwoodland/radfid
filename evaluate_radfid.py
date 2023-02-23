@@ -12,9 +12,9 @@ from tqdm import tqdm
 
 # Arguments
 parser = argparse.ArgumentParser()
-parser.add_argument('--in_dir', type=str, help='Image directory to be changed', default='vanilla/class0/')
+parser.add_argument('--in_dir', type=str, help='Image directory to be changed', required=True)
 parser.add_argument('--out_dir', type=str, help='Directory to save images to', required=True)
-parser.add_argument('--alpha', type=float, help='Parameter for perturbations', default=None)
+parser.add_argument('--alpha', type=float, help='Parameter for perturbations', required=True)
 parser.add_argument('--perturbation', type=str, help='Type of perturbation: gn for Gaussian noise, gb for Gaussian blur,'
                                                     'bb for black boxes, s for swirl, spn for salt & pepper noise,'
                                                     '& c for contamination')
