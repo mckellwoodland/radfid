@@ -18,8 +18,6 @@ The file contains the following arguments: `--gpu_node` to specify a GPU node to
 It has six possible pertubations under the argument `--pertubation`: `gn` for Gaussian noise, `gb` for Gaussian blur, `bb` for black boxes, `s` for swirl, `spn` for salt and pepper noise, and `c` for contamination.
 Other arguments include: `--in_dir` the directory that contains the images to be perturbed, `--out_dir` the directory to save the perturbed images to, `--alpha` the strength of each pertubation, and `--cont_dir` the directory that contains the "contaminated" images in it.
 
-It also contains the zip file weights.zip. This file contains four model weights: `stylegan2.pkl`, `pretrained-stylegan2.pkl`, `augmented-stylegan2.pkl`, and `pretrained-augmented-stylegan2.pkl`. These weights are all for the StyleGAN2 network trained on liver images. ``Pretrained'' means transfer learning was used and ``augmented'' means augmentaiton was used. For more information on these experiments, please refer to our paper [3].
-
 ## References
 
 [1] M. Heusel, H. Ramsauer, T. Unterthiner, B. Nessler, and S. Hochreiter, "GANs Trained by a Two Time-Scale Update Rule Converge to a Local Nash Equilibrium," in *Advances in Neural Information Processing Systems 30 (NIPS 2017)*, 2017, [Online] Available: https://proceedings.neurips.cc/paper/2017/file/8a1d694707eb0fefe65871369074926d-Paper.pdf
