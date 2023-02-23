@@ -25,5 +25,3 @@ It also contains the zip file weights.zip. This file contains four model weights
 [1] M. Heusel, H. Ramsauer, T. Unterthiner, B. Nessler, and S. Hochreiter, "GANs Trained by a Two Time-Scale Update Rule Converge to a Local Nash Equilibrium," in *Advances in Neural Information Processing Systems 30 (NIPS 2017)*, 2017, [Online] Available: https://proceedings.neurips.cc/paper/2017/file/8a1d694707eb0fefe65871369074926d-Paper.pdf
 
 [2] X. Mei *et al.*, "RadImageNet: An Open Radiologic Deep Learning Research Dataset for Effective Transfer Learning," *Radiol. Artif. Intell.*, vol. 4, no. 5, pp. e210315, Jul. 2022, doi: 10.1148/ryai.210315.
-
-[3] M. Woodland *et al.*, "Evaluating the Performance of StyleGAN2-ADA on Medical Images," In: C. Zhao, D. Svoboda, J.M. Wolterink, and M. Escobar (eds) *SASHIMI 2022*, vol. 13570, pp. 142-153, Sep. 2022, doi: 10.1007/978-3-031-16980-9_14.
