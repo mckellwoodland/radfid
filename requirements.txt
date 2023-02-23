@@ -1,6 +1,5 @@
 argparse
 numpy
-os
 pillow
 scipy
 skimage
