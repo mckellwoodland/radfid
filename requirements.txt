@@ -2,6 +2,6 @@ argparse
 numpy
 pillow
 scipy
-skimage
+scikit-image
 tensorflow
 tqdm
