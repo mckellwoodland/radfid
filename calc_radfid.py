@@ -21,6 +21,7 @@ parser.add_argument('--img_dir_gen', type=str, help='Generated image directory')
 parser.add_argument('--img_dir_real', type=str, help='Real image directory')
 parser.add_argument('--batch_size', type=int, help='batch size')
 parser.add_argument('--metric', type=str, help='radfid or fid', default='radfid')
+parser.add_argument('--out_path', type=str, help='txt file to write out results to')
 args = parser.parse_args()
 gpu_node = args.gpu_node
 image_size = args.image_size
@@ -28,6 +29,7 @@ img_dir_gen = args.img_dir_gen
 img_dir_real = args.img_dir_real
 batch_size = args.batch_size
 metric = args.metric
+out_path = args.out_path
 
 # Environment
 if gpu_node:
@@ -76,3 +78,6 @@ mu1, sigma1 = calculate_activation_statistics(img_dir_gen)
 mu2, sigma2 = calculate_activation_statistics(img_dir_real)
 fid = calculate_frechet_distance(mu1, sigma1, mu2, sigma2)
 print(fid)
+if out_path:
+    with open(out_path, 'w') as f:
+        f.write(f"The FID is {fid}")
