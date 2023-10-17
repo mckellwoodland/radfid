@@ -18,6 +18,22 @@ The file contains the following arguments: `--gpu_node` to specify a GPU node to
 It has six possible pertubations under the argument `--pertubation`: `gn` for Gaussian noise, `gb` for Gaussian blur, `bb` for black boxes, `s` for swirl, `spn` for salt and pepper noise, and `c` for contamination.
 Other arguments include: `--in_dir` the directory that contains the images to be perturbed, `--out_dir` the directory to save the perturbed images to, `--alpha` the strength of each pertubation, and `--cont_dir` the directory that contains the "contaminated" images in it.
 
+# Docker
+
+Build Docker container
+```
+docker build -t radfid .
+```
+
+Run the docker container.
+```
+docker run -it radfid /bin/bash
+```
+
+If you need access to files outside of the preprocessing folder, you can mount a directory.
+```
+docker run -it -v {DIR}:/workspace radfid /bin/bash
+```
 ## References
 
 [1] M. Heusel, H. Ramsauer, T. Unterthiner, B. Nessler, and S. Hochreiter, "GANs Trained by a Two Time-Scale Update Rule Converge to a Local Nash Equilibrium," in *Advances in Neural Information Processing Systems 30 (NIPS 2017)*, 2017, [Online] Available: https://proceedings.neurips.cc/paper/2017/file/8a1d694707eb0fefe65871369074926d-Paper.pdf
