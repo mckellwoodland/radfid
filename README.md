@@ -7,7 +7,7 @@ RadFID is the same as the Fréchet Inception Distance (FID) [1] except that the 
 This repository contains two main Python files:
 
 1. `calc_radfid.py` can be used to compute the RadFID. 
-It requires the [`fid.py`](https://github.com/bioinf-jku/TTUR/blob/master/fid.py) file from [1] and the `RadImageNet-InceptionV3_notop.h5` model from this [Google Drive](https://drive.google.com/drive/folders/1Es7cK1hv7zNHJoUW0tI0e6nLFVYTqPqK) [2] to be in the same directory.
+It requires the [`fid.py`](https://github.com/bioinf-jku/TTUR/blob/master/fid.py) file from [1] and the `RadImageNet-InceptionV3_notop.h5` model from this [Google Drive](https://drive.google.com/file/d/1UgYviv2K6QPM1SCexqqab5-yTgwoAFEc/view) [2] to be in the same directory.
 To use this code, your model must first generate 50,000 images and put them in a directory named `class0`.
 `class0` must be the only directory in the encompassing directory.
 All of the images for the real distribution should also be in a standalone `class0` repository.
