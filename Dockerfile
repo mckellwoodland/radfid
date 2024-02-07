@@ -1,9 +1,12 @@
 # Base image
-FROM python:3
+FROM tensorflow/tensorflow:2.15.0-gpu
+#python:3.9.18
 
 # Copy files
 WORKDIR /workspace
-COPY . .
+COPY requirements.txt ./
 
 # Install dependencies
-RUN pip install -r requirements.txt
+RUN apt-get update
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt

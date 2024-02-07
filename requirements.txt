@@ -1,7 +1,5 @@
-argparse
-numpy
-pillow
-scipy
-scikit-image
-tensorflow
-tqdm
+numpy==1.26.4
+pillow==10.2.0
+scikit-image==0.22.0
+scipy==1.12.0
+tqdm==4.66.1
