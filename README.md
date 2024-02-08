@@ -27,7 +27,7 @@ docker build -t radfid .
 
 Run the docker container.
 ```
-docker run --gpus all -it -v $(pwd):/workspace radfid /bin/bash
+docker run --gpus all -it -v $(pwd):/workspace radfid
 ```
 
 # Extract features
@@ -35,11 +35,13 @@ docker run --gpus all -it -v $(pwd):/workspace radfid /bin/bash
 Before extracting features, you'll need to download the TensorFlow models [here](https://github.com/BMEII-AI/RadImageNet/tree/main).
 
 ```
-usage: extract_features.py [-h] [-m MODEL_DIR] [-a ARCHITECTURE] [-d DATASET] [-g GPU_NODE] [-s IMG_SIZE]
+usage: extract_features.py [-h] -i IMG_DIR -f FEATURE_DIR [-a ARCHITECTURE] [-d DATASET] [-m MODEL_DIR] [-g GPU_NODE] [-s IMG_SIZE]
 
 Required Arguments:
-  -m MODEL_DIR, --model_dir MODEL_DIR
-                        Specify the path to the folder that contains the RadImageNet-pretrained models in TensorFlow.
+  -i IMG_DIR, --img_dir IMG_DIR
+                        Specify the path to the folder that contains the images to be embedded.
+  -f FEATURE_DIR, --feature_dir FEATURE_DIR
+                        Specify the path to the folder where the features should be saved.
 
 Optional Arguments:
   -a ARCHITECTURE, --architecture ARCHITECTURE
@@ -47,6 +49,9 @@ Optional Arguments:
                         "InceptionV3".
   -d DATASET, --dataset DATASET
                         Specify which dataset the feature extractor should be trained on. Options: "RadImageNet", "ImageNet". Defaults to "RadImageNet".
+  -m MODEL_DIR, --model_dir MODEL_DIR
+                        Specify the path to the folder that contains the RadImageNet-pretrained models in TensorFlow. Required if the dataset to be
+                        evaluated is RadImageNet.
   -g GPU_NODE, --gpu_node GPU_NODE
                         Specify the GPU node. Defaults to 0.
   -s IMG_SIZE, --img_size IMG_SIZE
