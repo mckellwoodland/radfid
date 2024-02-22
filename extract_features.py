@@ -71,6 +71,7 @@ def get_compiled_model(model_dir, arch, data, size):
         assert os.path.exists(weights), f"{model_paths[arch]} does not exist at the specified path: {model_dir}."
     else:
         weights = "imagenet"
+    print(size, size, 3)
     return models[arch](weights=weights, 
                         input_shape=(size, size, 3), 
                         include_top=False, 
@@ -86,6 +87,7 @@ if __name__ == "__main__":
                                        preprocessing_function=imagenet_utils.preprocess_input)
     extract_gen = datagen.flow_from_directory(args.img_dir,
                                               batch_size=args.batch_size,
+                                              target_size=(args.img_size, args.img_size),
                                               class_mode=None,
                                               shuffle=False)
     n_imgs = len(os.listdir(os.path.join(args.img_dir, 'class0')))
@@ -93,8 +95,9 @@ if __name__ == "__main__":
     filenames = extract_gen.filenames
     for i in tqdm.tqdm(range(n_batches)):
         batch = extract_gen.next()
-        features = model.predict(batch)
+        features = model.predict(batch, verbose=0)
         for j in range(len(features)):
             feature = features[j]
-            feature_file_path = os.path.join(args.feature_dir, f'{args.architecture}', f'{args.dataset}', filenames[j][7:-3] + 'npy')
-            np.save(feature_file_path, features)
+            feature_file_path = os.path.join(args.feature_dir, f'{args.architecture}', f'{args.dataset}', filenames[j+i*args.batch_size][7:-3] + 'npy')
+            np.save(feature_file_path, feature)
+        del batch
