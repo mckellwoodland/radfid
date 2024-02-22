@@ -35,27 +35,34 @@ docker run --gpus all -it -v $(pwd):/workspace radfid
 Before extracting features, you'll need to download the TensorFlow models [here](https://github.com/BMEII-AI/RadImageNet/tree/main).
 
 ```
-usage: extract_features.py [-h] -i IMG_DIR -f FEATURE_DIR [-a ARCHITECTURE] [-d DATASET] [-m MODEL_DIR] [-g GPU_NODE] [-s IMG_SIZE]
+usage: extract_features.py [-h] -i IMG_DIR -f FEATURE_DIR [-a ARCHITECTURE] [-d DATASET]
+                           [-m MODEL_DIR] [-g GPU_NODE] [-s IMG_SIZE] [-b BATCH_SIZE]
 
 Required Arguments:
   -i IMG_DIR, --img_dir IMG_DIR
-                        Specify the path to the folder that contains the images to be embedded.
+                        Specify the path to the folder that contains the images to be embedded within
+                        a folder labeled class0.
   -f FEATURE_DIR, --feature_dir FEATURE_DIR
-                        Specify the path to the folder where the features should be saved.
+                        Specify the path to the folder where the features should be saved. This folder
+                        will be further subdivided by feature extraction architecture and dataset
+                        automatically.
 
 Optional Arguments:
   -a ARCHITECTURE, --architecture ARCHITECTURE
-                        Specify which feature extraction architecture to use. Options: "IRV2", "ResNet50", "DenseNet121", "InceptionV3". Defaults to
-                        "InceptionV3".
+                        Specify which feature extraction architecture to use. Options: "IRV2",
+                        "ResNet50", "DenseNet121", "InceptionV3". Defaults to "InceptionV3".
   -d DATASET, --dataset DATASET
-                        Specify which dataset the feature extractor should be trained on. Options: "RadImageNet", "ImageNet". Defaults to "RadImageNet".
+                        Specify which dataset the feature extractor should be trained on. Options:
+                        "RadImageNet", "ImageNet". Defaults to "ImageNet".
   -m MODEL_DIR, --model_dir MODEL_DIR
-                        Specify the path to the folder that contains the RadImageNet-pretrained models in TensorFlow. Required if the dataset to be
-                        evaluated is RadImageNet.
+                        Specify the path to the folder that contains the RadImageNet-pretrained models
+                        in TensorFlow. Required if the dataset to be evaluated is RadImageNet.
   -g GPU_NODE, --gpu_node GPU_NODE
                         Specify the GPU node. Defaults to 0.
   -s IMG_SIZE, --img_size IMG_SIZE
                         Specify the height/width of the images. Defaults to 512.
+  -b BATCH_SIZE, --batch_size BATCH_SIZE
+                        Specify the batch size for inference.
 ```
 ## References
 
