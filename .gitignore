@@ -7,3 +7,7 @@ results/
 Swin-Transformer/
 .vs/
 .idea/
+calc_radfid.py
+evaluate_radfid.py
+extract_features_pytorch.py
+fid.py
