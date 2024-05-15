@@ -1,3 +1,9 @@
 models/
 data/
 features/
+__pycache__/
+notebooks/
+results/
+Swin-Transformer/
+.vs/
+.idea/

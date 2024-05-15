@@ -68,7 +68,7 @@ def calculate_activation_statistics(img_dir):
 
 # Main code
 if metric == 'radfid':
-    model_file = 'RadImageNet-InceptionV3_notop.h5'
+    model_file = 'models/RadImageNet_TF/RadImageNet-InceptionV3_notop.h5'
     model = InceptionV3(weights=model_file, input_shape=(image_size, image_size, 3), include_top=False, pooling='avg')
     datagen = ImageDataGenerator(rescale=1./255, preprocessing_function=preprocess_input)
 elif metric == 'fid':

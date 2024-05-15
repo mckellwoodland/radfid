@@ -6,7 +6,10 @@ FROM tensorflow/tensorflow:2.15.0-gpu
 WORKDIR /workspace
 COPY requirements.txt ./
 
+# Environment
+ENV TF_ENABLE_ONEDNN_OPTS=0
+
 # Install dependencies
-RUN apt-get update
+RUN apt-get update && apt-get install ffmpeg libsm6 libxext6 -y
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt

@@ -8,7 +8,7 @@ import numpy as np
 import os
 import tqdm
 from tensorflow.keras import applications
-from tensorflow.keras.applications import imagenet_utils
+from tensorflow.keras.applications import imagenet_utils, inception_v3, inception_resnet_v2, resnet, densenet
 from tensorflow.keras.preprocessing import image
 
 # Arguments
@@ -25,7 +25,7 @@ optional.add_argument('-a', '--architecture', type=str, default='InceptionV3', h
 optional.add_argument('-d', '--dataset', type=str, default='ImageNet', help='Specify which dataset the feature extractor should be trained on. \
                                                                                 Options: "RadImageNet", "ImageNet". \
                                                                                 Defaults to "ImageNet".')
-optional.add_argument('-m', '--model_dir', type=str, help='Specify the path to the folder that contains the RadImageNet-pretrained models in TensorFlow. \
+optional.add_argument('-m', '--model_dir', type=str, help='Specify the path to the folder that contains the RadImageNetpre-trained models in TensorFlow. \
                                                            Required if the dataset to be evaluated is RadImageNet.')
 optional.add_argument('-g', '--gpu_node', type=str, default="0", help="Specify the GPU node. \
                                                                      Defaults to 0.")
@@ -39,6 +39,7 @@ if not os.path.exists(os.path.join(args.feature_dir, f'{args.architecture}', f'{
 
 # Environment
 os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu_node
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 
 # Variables
 model_paths = {"IRV2": "RadImageNet-IRV2_notop.h5",
@@ -71,11 +72,39 @@ def get_compiled_model(model_dir, arch, data, size):
         assert os.path.exists(weights), f"{model_paths[arch]} does not exist at the specified path: {model_dir}."
     else:
         weights = "imagenet"
-    print(size, size, 3)
     return models[arch](weights=weights, 
                         input_shape=(size, size, 3), 
                         include_top=False, 
                         pooling='avg')
+
+def get_data_generator(img_dir, arch, data, size, batch_size):
+    """
+    Creates data generator.
+    Inputs:
+        img_dir (str): Folder with images to be embedded.
+        arch (str): Feature extractor's architecture.
+        data (str): Feature extractor's dataset.
+        size (int): Height/width of images.
+    Returns:
+        Data generator.
+    """
+    if data == "RadImageNet":
+        datagen = image.ImageDataGenerator(rescale=1./255,
+                                           preprocessing_function=imagenet_utils.preprocess_input)
+    else:
+        if arch == "InceptionV3":
+            datagen = image.ImageDataGenerator(preprocessing_function=inception_v3.preprocess_input)
+        elif arch == "IRV2":
+            datagen = image.ImageDataGenerator(preprocessing_function=inception_resnet_v2.preprocess_input)
+        elif arch == "ResNet50":
+            datagen = image.ImageDataGenerator(preprocessing_function=resnet.preprocess_input)
+        else:
+            datagen = image.ImageDataGenerator(preprocessing_function=densenet.preprocess_input)
+    return datagen.flow_from_directory(img_dir,
+                                       batch_size=batch_size,
+                                       target_size=(size, size),
+                                       class_mode=None,
+                                       shuffle=False)
 
 # Main code
 if __name__ == "__main__":
@@ -83,13 +112,11 @@ if __name__ == "__main__":
                                args.architecture, 
                                args.dataset, 
                                args.img_size)
-    datagen = image.ImageDataGenerator(rescale=1./255,
-                                       preprocessing_function=imagenet_utils.preprocess_input)
-    extract_gen = datagen.flow_from_directory(args.img_dir,
-                                              batch_size=args.batch_size,
-                                              target_size=(args.img_size, args.img_size),
-                                              class_mode=None,
-                                              shuffle=False)
+    extract_gen = get_data_generator(args.img_dir,
+                                     args.architecture,
+                                     args.dataset,
+                                     args.img_size,
+                                     args.batch_size)
     n_imgs = len(os.listdir(os.path.join(args.img_dir, 'class0')))
     n_batches = n_imgs // args.batch_size + 1
     filenames = extract_gen.filenames
@@ -98,6 +125,9 @@ if __name__ == "__main__":
         features = model.predict(batch, verbose=0)
         for j in range(len(features)):
             feature = features[j]
+            if np.sum(np.isnan(feature)) > 0:
+                print("NAN", np.sum(np.isnan(feature)))
             feature_file_path = os.path.join(args.feature_dir, f'{args.architecture}', f'{args.dataset}', filenames[j+i*args.batch_size][7:-3] + 'npy')
             np.save(feature_file_path, feature)
         del batch
+        del features
